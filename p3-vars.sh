@@ -1,0 +1,14 @@
+SUBSCRIPTION_ID=905c796b-33cf-49a8-a9e5-a0cdc6041cdf
+LOCATION=westeurope
+RG=rg-network-dev-weu-001
+HUB_PREFIX=10.0.0.0/16
+SPOKE1_PREFIX=10.1.0.0/16
+SPOKE2_PREFIX=10.2.0.0/16
+HUB_MGMT_SUBNET=10.0.1.0/24
+HUB_SHARED_SUBNET=10.0.2.0/24
+SPOKE1_APP_SUBNET=10.1.1.0/24
+SPOKE2_APP_SUBNET=10.2.1.0/24
+HUB_ID=/subscriptions/905c796b-33cf-49a8-a9e5-a0cdc6041cdf/resourceGroups/rg-network-dev-weu-001/providers/Microsoft.Network/virtualNetworks/vnet-hub-dev-weu-001
+SPOKE1_ID=/subscriptions/905c796b-33cf-49a8-a9e5-a0cdc6041cdf/resourceGroups/rg-network-dev-weu-001/providers/Microsoft.Network/virtualNetworks/vnet-spoke1-dev-weu-001
+SPOKE2_ID=/subscriptions/905c796b-33cf-49a8-a9e5-a0cdc6041cdf/resourceGroups/rg-network-dev-weu-001/providers/Microsoft.Network/virtualNetworks/vnet-spoke2-dev-weu-001
+STORAGE_NAME=stgflowlogdevweu001
