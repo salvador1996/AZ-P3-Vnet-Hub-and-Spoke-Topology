@@ -232,33 +232,6 @@ flowchart TD
     + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-16-attach-nsg-to-subnets.JPG
     + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-17-attachement-verification.JPG
 
-- Write and Assign a custom role **VM restart role** :
-    --> https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/vm-restart-role.json
-
-    + Replace the placeholder with your real subscription ID
-
-      ```bash
-        sed -i "s/PLACEHOLDER/$SUBSCRIPTION_ID/" vm-restart-role.json
-      ```
-
-    + Create the custom role
-
-      ```bash
-        az role definition create --role-definition vm-restart-role.json
-      ```
-
-    + Assign it to the USER
-
-        ```bash
-            az role assignment create \
-              --assignee "USER_ID" \
-              --role "VM Restart Operator" \
-              --scope "SCOPE"
-        ```
-
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-09-all-user-and-roles.JPG
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-10-OPS_USER-Roles.JPG
-
 - Enable VNet flow logs and verify with Network Watcher:
     
     - Step 1 — enable Network Watcher for your region:
