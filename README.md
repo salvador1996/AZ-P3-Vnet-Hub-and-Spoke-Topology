@@ -76,16 +76,17 @@ flowchart TD
 - Azure CLI
 
 ## Variables
-- link: https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/p2-vars.sh
+- link: https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/p3-vars.sh
 
 
 ## Implementation Steps (look title **Variables**  for any "$VARIABLE")
 
 
 - create a resource group **rg-network-dev-weu-001** : 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/Screenshots/image-01-ResourceGroup-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-01-ResourceGroup-creation.JPG
 
 - Build the hub VNet and spokes:
+
     ```bash
        az network vnet create \
           --name vnet-name \
@@ -94,7 +95,8 @@ flowchart TD
           --location "LOCATION" \
           --tags Owner=yourname Environment=dev CostCenter=training Project=p3-network
     ```
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/Screenshots/image-03-Hub-vnet-creation.JPG
+    
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-03-Hub-vnet-creation.JPG
 
     ```bash
        az network vnet subnet create \
@@ -103,15 +105,18 @@ flowchart TD
           --resource-group $RG \
           --address-prefix $HUB_MGMT_SUBNET
     ```
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/Screenshots/image-04-MGMT-Hub-Subnet-creation.JPG
+
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-04-MGMT-Hub-Subnet-creation.JPG
 
     - verify all VNets exist: 
+
     ```bash
        az network vnet list \
           --resource-group "ResourceGroup" \
           -o table
     ```
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/Screenshots/image-05-all-vnet-created.JPG
+
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-05-all-vnet-created.JPG
 
 - Configure VNet peering (hub-spoke connections):
 
@@ -140,11 +145,12 @@ flowchart TD
                   --allow-forwarded-traffic true
             ```
 
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/Screenshots/image-09-check-all-peering.JPG    
+        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-09-check-all-peering.JPG    
 
 - Apply NSG rules — deny all, then allow explicitly:
 
    - Step 1 — create NSG for the hub management subnet:
+
         ```bash
            az network nsg create \
               --name nsg-management-dev-weu-001 \
@@ -152,7 +158,9 @@ flowchart TD
               --location "LOCATION" \
               --tags Owner=yourname Environment=dev CostCenter=training Project=p3-network
         ```
+
       - add the deny-all inbound rule (priority 4096):
+
         ```bash
            az network nsg rule create \
               --name DENY-ALL-INBOUND \
@@ -168,8 +176,10 @@ flowchart TD
               --destination-port-ranges '*' \
               --description "Default deny all — everything must be explicitly allowed above this rule
         ```
+
         - allow SSH from hub management subnet only:
-          ```bash
+
+        ```bash
              az network nsg rule create \
               --name ALLOW-SSH-FROM-HUB-MGMT \
               --nsg-name nsg-name-you-want-to-attach-this-rule-to \
@@ -186,7 +196,8 @@ flowchart TD
         ```
 
         - allow SSH from hub management subnet only:
-          ```bash
+
+        ```bash
              az network nsg rule create \
               --name ALLOW-HTTPS-FROM-VNETS \
               --nsg-name nsg-management-dev-weu-001 \
@@ -207,6 +218,7 @@ flowchart TD
         - Create the 2 rules for the spoke: **DENY-ALL-INBOUND** and **ALLOW-ALL-TRAFFIC-FROM-HUB-MGMT**
 
     - Step 3 — attach NSGs to subnets:
+
         ```bash
            az network vnet subnet update \
               --name "subnet-name" \
@@ -215,50 +227,59 @@ flowchart TD
               --network-security-group "nsg-name-you-want-to-attach"
         ```
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-14-nsg-list.JPG 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-15-nsg-rule-list.JPG
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-16-attach-nsg-to-subnets.JPG
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-17-attachement-verification.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-14-nsg-list.JPG 
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-15-nsg-rule-list.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-16-attach-nsg-to-subnets.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-17-attachement-verification.JPG
 
 - Write and Assign a custom role **VM restart role** :
-    --> https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/vm-restart-role.json
+    --> https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/vm-restart-role.json
 
     + Replace the placeholder with your real subscription ID
+
       ```bash
         sed -i "s/PLACEHOLDER/$SUBSCRIPTION_ID/" vm-restart-role.json
       ```
 
     + Create the custom role
+
       ```bash
         az role definition create --role-definition vm-restart-role.json
       ```
 
     + Assign it to the USER
+
         ```bash
             az role assignment create \
               --assignee "USER_ID" \
               --role "VM Restart Operator" \
               --scope "SCOPE"
         ```
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-09-all-user-and-roles.JPG
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-10-OPS_USER-Roles.JPG
+
+        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-09-all-user-and-roles.JPG
+        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-10-OPS_USER-Roles.JPG
 
 - Enable VNet flow logs and verify with Network Watcher:
     
     - Step 1 — enable Network Watcher for your region:
+
         ```bash
             az network watcher list \
               --query "[?location=='westeurope'].{Name:name, State:provisioningState}" \
               --output table
         ```
+
         - If it doesn't exist, create it:
+
           ```bash
             az network watcher configure \
               --resource-group $RG \
               --locations $LOCATION \
               --enabled true
           ```
+
     - Step 2 — create a storage account for flow logs:
+
         ```bash
             az storage account create \
               --name $STORAGE_NAME \
@@ -268,7 +289,9 @@ flowchart TD
               --kind StorageV2 \
               --tags Owner=yourname Environment=dev CostCenter=training Project=p3-network
         ```
+
     - Step 3 — Create VNet flow-logs for spokes and Hub:
+
         ```bash
             az network watcher flow-log create \
               --name flowlog-vnet \
@@ -282,7 +305,7 @@ flowchart TD
               --retention 7
         ```
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-21-network-watcher-flow-log-list.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-21-network-watcher-flow-log-list.JPG
     
 
 ## MY LEARNING JOURNEY
@@ -299,20 +322,20 @@ I'm a beginner, so this is written from that perspective — I'm sharing it in c
 
  - Resolution:
    I asked AI to give 2 image with the structure of Azure-netwok:
-  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/Hub-and-Spoke-Technology.JPG
-  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/Network-Architecture-Azure.PNG
+  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Hub-and-Spoke-Technology.JPG
+  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Network-Architecture-Azure.PNG
 
 ### 2. NSG-flow-log retirement & IP flow verify to test NSG rules
 
  - Problem:
     When i created my flow-log, i have done it at the NSG-scope, but it didn't work. i was left with a long message from Azure about the NSG-flow-log retirement. And since i don't have a Virtual machine yet, i cannot test the the IP flow to test my NSG-rules for now.
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-19-problem-flowlog-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-19-problem-flowlog-creation.JPG
 
  - Resolution:
     I created the flow-log at the Vnet-scope. 
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-Spoke-Topology/blob/main/screenshots/image-20-flowlog-vnet-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-20-flowlog-vnet-creation.JPG
 
 ## What I Learned
 
