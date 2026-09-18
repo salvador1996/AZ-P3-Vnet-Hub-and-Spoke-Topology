@@ -295,8 +295,8 @@ I'm a beginner, so this is written from that perspective — I'm sharing it in c
 
  - Resolution:
    I asked AI to give 2 image with the structure of Azure-netwok:
-  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Hub-and-Spoke-Technology.JPG
-  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Network-Architecture-Azure.PNG
+  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Hub-and-Spoke-Technology.jpg
+  + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/Network-Architecture-Azure.png
 
 ### 2. NSG-flow-log retirement & IP flow verify to test NSG rules
 
