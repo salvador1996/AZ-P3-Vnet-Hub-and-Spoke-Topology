@@ -83,7 +83,7 @@ flowchart TD
 
 
 - create a resource group **rg-network-dev-weu-001** : 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-01-ResourceGroup-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-01-ResourceGroup-creation.JPG
 
 - Build the hub VNet and spokes:
 
@@ -96,7 +96,7 @@ flowchart TD
           --tags Owner=yourname Environment=dev CostCenter=training Project=p3-network
     ```
     
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-03-Hub-vnet-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-03-Hub-vnet-creation.JPG
 
     ```bash
        az network vnet subnet create \
@@ -106,7 +106,7 @@ flowchart TD
           --address-prefix $HUB_MGMT_SUBNET
     ```
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-04-MGMT-Hub-Subnet-creation.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-04-MGMT-Hub-Subnet-creation.JPG
 
     - verify all VNets exist: 
 
@@ -116,7 +116,7 @@ flowchart TD
           -o table
     ```
 
-    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-05-all-vnet-created.JPG
+    + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-05-all-vnet-created.JPG
 
 - Configure VNet peering (hub-spoke connections):
 
@@ -145,7 +145,7 @@ flowchart TD
                   --allow-forwarded-traffic true
             ```
 
-        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/Screenshots/image-09-check-all-peering.JPG    
+        + https://github.com/salvador1996/AZ-P3-Vnet-Hub-and-Spoke-Topology/blob/main/screenshots/image-09-check-all-peering.JPG    
 
 - Apply NSG rules — deny all, then allow explicitly:
 
